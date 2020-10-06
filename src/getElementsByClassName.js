@@ -4,32 +4,36 @@
 // };
 
 // But instead we're going to implement it from scratch:
-var getElementsByClassName = function(className
-) {
-  var input = document.body.children;//return an array of nodes
+var getElementsByClassName = function(className, theChildren = document.body.children) {
   var result = [];
 
   //arguments,
+  /*
   if (arguments.length === 2) {
-    input = arguments[1];
+    theChildren = arguments[1];
   }
-  console.log('className: ', className);
+  */
 
-  for (var i = 0; i < input.length; i++) {
+  //childern
+  for (var i = 0; i < theChildren.length; i++) {
     // need conditional to isolate className from other info
-    var currentNode = input[i];
-    if (currentNode.className === className) {
+    var currentNode = theChildren[i];
+    if (currentNode.className === className && currentNode.length !== 0) {
       result.push(currentNode);
     }
 
     // if hasChildNodes, iterate, find more className
     if (currentNode.hasChildNodes()) {
       var theKids = currentNode.children;
-      if (Array.isArray(theKids)) {
-        for (var j = 0; j < theKids.length; j++) {
-          getElementsByClassName(className, theKids[j]);
-        }
+      //console.log('The theKids: ', theKids);
+      /*
+      var currentOutput = getElementsByClassName(className, theKids);
+      console.log('The currentOutput: ', currentOutput);
+      if (currentOutput.length !== 0) {
+        result.concat(currentOutput);
       }
+      */
+      return getElementsByClassName(className, theKids);
     }
   }
   console.log('result: ', result);
