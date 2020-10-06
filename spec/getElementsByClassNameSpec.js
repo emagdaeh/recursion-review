@@ -22,6 +22,10 @@ describe('getElementsByClassName', function() {
       var equality = _.isEqual(result, expectedArray); // why can't we use `===` here?
       expect(equality).to.equal(true);
 
+      console.log('expectedArray: ', expectedArray);
+      console.log('result: ', result);
+
+
       $rootElement.remove();
     });
     $('body').removeClass('targetClassName');

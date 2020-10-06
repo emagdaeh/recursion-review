@@ -4,47 +4,25 @@
 // };
 
 // But instead we're going to implement it from scratch:
-var getElementsByClassName = function(className, theChildren = document.body.children) {
-  var result = [];
-  console.log('lookup className:', className);
-  console.log('theChildren argument:', theChildren);
-
-  //arguments,
-  /*
-  if (arguments.length === 2) {
-    theChildren = arguments[1];
+var getElementsByClassName = function(className, ele = document.body) {
+  var nodes = [];
+  //base case
+  if (ele.classList.contains(className) && !ele.hasChildNodes()) {
+    return [ele];
+  } else if (!ele.hasChildNodes()) {
+    return [];
   }
-  */
 
-  /*
-  if (UNKNOWN VARIABLE.classList.contains(className) {
-    do something
+  //recursion case
+  var theChildren = ele.children;//theChildern is HTML collection, not an element any more, which means you cannot use element method directly on it. but this collection can be iterated.
+  //then the question is that do you want to use iteration? if so, where?
+  if (ele.classList.contains(className)) {
+    nodes.push(ele);
   }
-  */
-
-  //childern
+  //at this point, we would know if the ele has children or not, and yes it does
   for (var i = 0; i < theChildren.length; i++) {
-    // need conditional to isolate className from other info
-    var currentNode = theChildren[i].childNodes;
-    console.log('currentNode: ', currentNode);
-    if (currentNode.classList.contains(className)) {
-      result.push(currentNode);
-    }
-    //currentNode.className === className && currentNode.length !== 0
-    // if hasChildNodes, iterate, find more className
-    if (currentNode.hasChildNodes()) {
-      var theKids = currentNode.children;
-      //console.log('The theKids: ', theKids);
-      /*
-      var currentOutput = getElementsByClassName(className, theKids);
-      console.log('The currentOutput: ', currentOutput);
-      if (currentOutput.length !== 0) {
-        result.concat(currentOutput);
-      }
-      */
-      result.concat(getElementsByClassName(className, theKids));
-    }
+    nodes = nodes.concat(getElementsByClassName(className, theChildren[i]));
   }
-  console.log('result: ', result);
-  return result;
+
+  return nodes;
 };
