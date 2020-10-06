@@ -6,6 +6,8 @@
 // But instead we're going to implement it from scratch:
 var getElementsByClassName = function(className, theChildren = document.body.children) {
   var result = [];
+  console.log('lookup className:', className);
+  console.log('theChildren argument:', theChildren);
 
   //arguments,
   /*
@@ -14,14 +16,21 @@ var getElementsByClassName = function(className, theChildren = document.body.chi
   }
   */
 
+  /*
+  if (UNKNOWN VARIABLE.classList.contains(className) {
+    do something
+  }
+  */
+
   //childern
   for (var i = 0; i < theChildren.length; i++) {
     // need conditional to isolate className from other info
-    var currentNode = theChildren[i];
-    if (currentNode.className === className && currentNode.length !== 0) {
+    var currentNode = theChildren[i].childNodes;
+    console.log('currentNode: ', currentNode);
+    if (currentNode.classList.contains(className)) {
       result.push(currentNode);
     }
-
+    //currentNode.className === className && currentNode.length !== 0
     // if hasChildNodes, iterate, find more className
     if (currentNode.hasChildNodes()) {
       var theKids = currentNode.children;
@@ -33,7 +42,7 @@ var getElementsByClassName = function(className, theChildren = document.body.chi
         result.concat(currentOutput);
       }
       */
-      return getElementsByClassName(className, theKids);
+      result.concat(getElementsByClassName(className, theKids));
     }
   }
   console.log('result: ', result);
